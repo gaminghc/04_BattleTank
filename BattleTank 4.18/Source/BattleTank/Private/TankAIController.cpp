@@ -24,6 +24,19 @@ void ATankAIController::BeginPlay() {
 	}
 }
 
+void ATankAIController::AimTowardCrossHair() const
+{
+	auto PlayerTank = GetPlayerTank();
+
+	if (PlayerTank) {
+		auto ControlledTank = GetControlledTank();
+
+		if (ControlledTank) {
+			ControlledTank->AimAt(PlayerTank->GetActorLocation());
+		}
+	}
+}
+
 ATank* ATankAIController::GetControlledTank() const {
 	return Cast<ATank>(GetPawn());
 }

@@ -23,5 +23,6 @@ private:
 
 	virtual void BeginPlay() override;
 	
-	
+	// move barrel and turrent to point to cross hair
+	void AimTowardCrossHair() const;
 };
