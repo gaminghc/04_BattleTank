@@ -24,7 +24,7 @@ void ATankAIController::BeginPlay() {
 	}
 }
 
-void ATankAIController::AimTowardCrossHair() const
+void ATankAIController::AimTowardPlayer() const
 {
 	auto PlayerTank = GetPlayerTank();
 
@@ -48,5 +48,12 @@ ATank* ATankAIController::GetPlayerTank() const {
 	} 
 	return (ATank*)(PlayerTank);
 }
+
+void ATankAIController::Tick(float DeltaTime) {
+	Super::Tick(DeltaTime);
+
+	AimTowardPlayer();
+}
+
 
 
