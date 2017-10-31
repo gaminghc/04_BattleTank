@@ -3,6 +3,7 @@
 
 #include "TankAimingComponent.h"
 #include "TankBarrel.h"
+#include "TankTurret.h"
 
 // Sets default values for this component's properties
 UTankAimingComponent::UTankAimingComponent()
@@ -47,6 +48,9 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		StartLocation,
 		HitLocation,
 		LaunchSpeed,
+		false,
+		0.f, 
+		0.f,
 		ESuggestProjVelocityTraceOption::DoNotTrace
 	);
 
@@ -56,6 +60,9 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from %s with angle %s"), *ThisTankName, *HitLocation.ToString(), *StartLocation.ToString(), *AimDirection.ToString());
 		MoveBarrelToward(AimDirection);
 	}
+	else {
+		UE_LOG(LogTemp, Warning, TEXT("No aim solution"));
+	}
 
 	
 }
@@ -63,6 +70,11 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 void UTankAimingComponent::SetBarrelReferrence(UTankBarrel * BarrelToSet)
 {
 	Barrel = BarrelToSet;
+}
+
+void UTankAimingComponent::SetTurretReferrence(UTankTurret * TurretToSet)
+{
+	Turret = TurretToSet;
 }
 
 void UTankAimingComponent::MoveBarrelToward(FVector AimDirection)
@@ -74,6 +86,7 @@ void UTankAimingComponent::MoveBarrelToward(FVector AimDirection)
 
 	UE_LOG(LogTemp, Warning, TEXT("Aim direction %s as rotator %s"), *AimDirection.ToString(), *AimAsRotator.ToString());
 
-	// Move the barrel right amount given a max elevation speed and the frame time
-	Barrel->Elevate(5.f);
+	// Move the barrel and turret right amount given a max elevation speed and the frame time
+	Barrel->Elevate(DeltaRotator.Pitch);
+	Turret->Rotate(DeltaRotator.Yaw);
 }

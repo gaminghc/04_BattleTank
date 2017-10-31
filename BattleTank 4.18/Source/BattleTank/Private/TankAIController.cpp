@@ -1,6 +1,7 @@
 // CopyRight@EagerBeaver
 
 #include "TankAIController.h"
+#include "Tank.h"
 
 void ATankAIController::BeginPlay() {
 	Super::BeginPlay();
