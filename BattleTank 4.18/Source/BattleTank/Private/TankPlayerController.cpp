@@ -53,7 +53,7 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 		//UE_LOG(LogTemp, Warning, TEXT("Look Direction: %s"), *LookDirection.ToString());
 		// Line trace to see what we hit
 		if (GetLookVectorHitLocation(LookDirection, OutHitLocation)) {
-			UE_LOG(LogTemp, Warning, TEXT("Crosshair hits: %s"), *OutHitLocation.ToString());
+			//UE_LOG(LogTemp, Warning, TEXT("Crosshair hits: %s"), *OutHitLocation.ToString());
 		}
 		else {
 			return false;

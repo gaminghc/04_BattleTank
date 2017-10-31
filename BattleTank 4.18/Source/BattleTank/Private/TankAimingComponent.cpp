@@ -40,7 +40,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 
 	FVector OutLaunchVelocity;
 	FVector StartLocation = Barrel->GetSocketLocation(FName("Projectile"));
-
+	//UE_LOG(LogTemp, Warning, TEXT("%s Starting location: %s"), *GetOwner()->GetName(), *StartLocation.ToString());
 	// Calculate the OutLaunchVelocity
 	bool bHaveAimSolution = UGameplayStatics::SuggestProjectileVelocity(
 		this,
@@ -57,11 +57,11 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 	if (bHaveAimSolution) {
 		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
 		auto ThisTankName = GetOwner()->GetName();
-		UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from %s with angle %s"), *ThisTankName, *HitLocation.ToString(), *StartLocation.ToString(), *AimDirection.ToString());
+		//UE_LOG(LogTemp, Warning, TEXT("%s aiming at %s from %s with angle %s"), *ThisTankName, *HitLocation.ToString(), *StartLocation.ToString(), *AimDirection.ToString());
 		MoveBarrelToward(AimDirection);
 	}
 	else {
-		UE_LOG(LogTemp, Warning, TEXT("No aim solution"));
+		//UE_LOG(LogTemp, Warning, TEXT("No aim solution"));
 	}
 
 	
@@ -84,7 +84,7 @@ void UTankAimingComponent::MoveBarrelToward(FVector AimDirection)
 	auto AimAsRotator = AimDirection.Rotation();
 	auto DeltaRotator = AimAsRotator - BarrelRotation;
 
-	UE_LOG(LogTemp, Warning, TEXT("Aim direction %s as rotator %s"), *AimDirection.ToString(), *AimAsRotator.ToString());
+	//UE_LOG(LogTemp, Warning, TEXT("Aim direction %s as rotator %s"), *AimDirection.ToString(), *AimAsRotator.ToString());
 
 	// Move the barrel and turret right amount given a max elevation speed and the frame time
 	Barrel->Elevate(DeltaRotator.Pitch);
