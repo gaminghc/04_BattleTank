@@ -32,10 +32,10 @@ protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
 	// measured in cm/s
-	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 10000; // 1000m/s
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	float LaunchSpeed = 4000; // 1000m/s
 
-	UPROPERTY(EditAnywhere, Category = Setup)
+	UPROPERTY(EditDefaultsOnly, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 	
 private:	
