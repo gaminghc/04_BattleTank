@@ -22,6 +22,9 @@ public:
 
 	void AimAt(FVector HitLocation) const;
 
+	UFUNCTION(BlueprintCallable, Category = Firing)
+	void Fire();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -30,11 +33,11 @@ protected:
 
 	// measured in cm/s
 	UPROPERTY(EditAnywhere, Category = Firing)
-	float LaunchSpeed = 100000; // 1000m/s
+	float LaunchSpeed = 10000; // 1000m/s
 
 	UPROPERTY(EditAnywhere, Category = Setup)
 	TSubclassOf<AProjectile> ProjectileBlueprint;
-
+	
 private:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -48,9 +51,9 @@ private:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReferrence(UTankTurret* TurretToSet);
 
-	UFUNCTION(BlueprintCallable, Category = Firing)
-	void Fire();
-
 	// Local barrel reference for spawning projectile
 	UTankBarrel* Barrel = nullptr;
+
+	float ReloadTimeInSeconds = 3.f;
+	double LastFireTime = 0;
 };

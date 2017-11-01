@@ -34,6 +34,7 @@ void ATankAIController::AimTowardPlayer() const
 
 		if (ControlledTank) {
 			ControlledTank->AimAt(PlayerTank->GetActorLocation());
+			ControlledTank->Fire();
 		}
 	}
 }
