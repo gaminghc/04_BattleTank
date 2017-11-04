@@ -24,7 +24,10 @@ private:
 	virtual void BeginPlay() override;
 	
 	// move barrel and turrent to point to cross hair
-	void AimTowardPlayer() const;
+	void AimTowardPlayer();
 
 	virtual void Tick(float DeltaTime) override;
+
+	// How close the AI tank get to the player
+	float AcceptanceRadius = 3000.f;
 };

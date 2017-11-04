@@ -25,12 +25,16 @@ void ATankAIController::BeginPlay() {
 	}
 }
 
-void ATankAIController::AimTowardPlayer() const
+void ATankAIController::AimTowardPlayer()
 {
 	auto PlayerTank = GetPlayerTank();
 
 	if (PlayerTank) {
+
 		auto ControlledTank = GetControlledTank();
+
+		// move toward player
+		MoveToActor(PlayerTank, AcceptanceRadius);
 
 		if (ControlledTank) {
 			ControlledTank->AimAt(PlayerTank->GetActorLocation());
