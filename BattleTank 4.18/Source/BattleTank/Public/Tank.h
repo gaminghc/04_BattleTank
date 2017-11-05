@@ -33,8 +33,6 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
-	UPROPERTY(BlueprintReadOnly)
-	UTankMovementComponent* TankMovementComponent = nullptr;
 	// measured in cm/s
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 4000; // 1000m/s
@@ -48,15 +46,6 @@ private:
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetBarrelReferrence(UTankBarrel* BarrelToSet);
-
-	UFUNCTION(BlueprintCallable, Category = Setup)
-	void SetTurretReferrence(UTankTurret* TurretToSet);
-
-	// Local barrel reference for spawning projectile
-	UTankBarrel* Barrel = nullptr;
 
 	float ReloadTimeInSeconds = 3.f;
 	double LastFireTime = 0;
