@@ -20,6 +20,11 @@ ATank* ATankPlayerController::GetControlledTank() const {
 	return Cast<ATank>(GetPawn());
 }
 
+bool ATankPlayerController::IsTargetingAnotherTank() const
+{
+	return bIsTargetingAnotherTank;
+}
+
 void ATankPlayerController::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 
@@ -27,7 +32,7 @@ void ATankPlayerController::Tick(float DeltaTime) {
 
 }
 
-void ATankPlayerController::AimTowardCrossHair() const {
+void ATankPlayerController::AimTowardCrossHair() {
 	if (!GetControlledTank()) return;
 
 	// Get where in the world the cross hair hits and
@@ -40,7 +45,7 @@ void ATankPlayerController::AimTowardCrossHair() const {
 }
 
 
-bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) const {
+bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) {
 	// Find cross-hair position in pixel coords
 	int32 ViewportSizeX, ViewportSizeY;
 	GetViewportSize(ViewportSizeX, ViewportSizeY);
@@ -63,23 +68,28 @@ bool ATankPlayerController::GetSightRayHitLocation(FVector& OutHitLocation) cons
 	return true;
 }
 
-bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector &OutWorldDirection) const
+bool ATankPlayerController::GetLookDirection(FVector2D ScreenLocation, FVector &OutWorldDirection)
 {
 	FVector OutWorldLocation;
 	return DeprojectScreenPositionToWorld(ScreenLocation.X, ScreenLocation.Y, OutWorldLocation, OutWorldDirection);
 }
 
-bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector & HitLocation) const
+bool ATankPlayerController::GetLookVectorHitLocation(FVector LookDirection, FVector & HitLocation)
 {
 	FHitResult HitResult;
 	auto StartLocation = PlayerCameraManager->GetCameraLocation();
 	auto EndLocation = StartLocation + LookDirection * LineTraceRange;
+	bIsTargetingAnotherTank = false;
 
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, StartLocation, EndLocation, ECollisionChannel::ECC_Visibility))
 	{
 		HitLocation = HitResult.Location;
+		if (HitResult.Actor->GetClass()->IsChildOf(ATank::StaticClass())) {
+			bIsTargetingAnotherTank = true;
+		}
 		return true;
 	}
+	
 	HitLocation = FVector(0);
 	return false; // line trace didn't hit
 }
