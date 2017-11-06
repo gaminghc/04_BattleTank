@@ -23,7 +23,7 @@ void UTankAimingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// ...
+	LastFireTime = FPlatformTime::Seconds();
 	
 }
 
@@ -33,7 +33,15 @@ void UTankAimingComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+	if (FPlatformTime::Seconds() - LastFireTime >  ReloadTimeInSeconds) {
+		if (IsBarrelMoving()) {
+			FiringState = EFiringState::Aiming;
+		}
+		else {
+			FiringState = EFiringState::Locked;
+		}
+	}
+	BarrelDirectionLastFrame = Barrel->GetForwardVector();
 }
 
 void UTankAimingComponent::AimAt(FVector HitLocation)
@@ -89,17 +97,25 @@ void UTankAimingComponent::MoveBarrelToward(FVector AimDirection)
 	Turret->Rotate(DeltaRotator.Yaw);
 }
 
+bool UTankAimingComponent::IsBarrelMoving()
+{
+	if (!ensure(Barrel)) return false;
+	if (Barrel->GetForwardVector().Equals(BarrelDirectionLastFrame, 0.01f)) {
+		return false;
+	}
+	return true;
+}
+
 void UTankAimingComponent::Fire()
 {
-	UE_LOG(LogTemp, Warning, TEXT("%s is firing!"), *GetName());
-	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-	if (ensure(Barrel && ProjectileBlueprint) && isReloaded) {
-		// Spawn a projectile at socket of the barrel
-		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")),
-			Barrel->GetSocketRotation(FName("Projectile")));
-		//TODO remove
-		float LaunchSpeed = 4000;
-		Projectile->LaunchProjectile(LaunchSpeed);
-		LastFireTime = FPlatformTime::Seconds();
+	if (FiringState != EFiringState::Reloading) {
+		if (ensure(Barrel && ProjectileBlueprint)) {
+			// Spawn a projectile at socket of the barrel
+			auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")),
+				Barrel->GetSocketRotation(FName("Projectile")));
+			Projectile->LaunchProjectile(LaunchSpeed);
+			LastFireTime = FPlatformTime::Seconds();
+			FiringState = EFiringState::Reloading;
+		}
 	}
 }

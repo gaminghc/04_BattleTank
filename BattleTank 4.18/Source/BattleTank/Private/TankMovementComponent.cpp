@@ -4,13 +4,13 @@
 #include "TankTrack.h"
 
 void UTankMovementComponent::IntendMoveForward(float Throw) {
-	UE_LOG(LogTemp, Warning, TEXT("%s Intend move forward throw %f"), *GetOwner()->GetName(), Throw);
+	//UE_LOG(LogTemp, Warning, TEXT("%s Intend move forward throw %f"), *GetOwner()->GetName(), Throw);
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
 }
 
 void UTankMovementComponent::IntendTurnRight(float Throw) {
-	UE_LOG(LogTemp, Warning, TEXT("%s Intend move forward throw %f"), *GetOwner()->GetName(), Throw);
+	//UE_LOG(LogTemp, Warning, TEXT("%s Intend move forward throw %f"), *GetOwner()->GetName(), Throw);
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(-Throw);
 }
