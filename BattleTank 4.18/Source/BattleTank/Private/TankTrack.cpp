@@ -3,12 +3,12 @@
 #include "TankTrack.h"
 
 UTankTrack::UTankTrack() {
-
+	PrimaryComponentTick.bCanEverTick = true;
 }
 
 void UTankTrack::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction * ThisTickFunction)
 {
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+	//Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 	UE_LOG(LogTemp, Warning, TEXT("Track ticking"));
 	// Calculate the slippage speed
 	auto SlippageSpeed = FVector::DotProduct(GetRightVector(), GetComponentVelocity());
