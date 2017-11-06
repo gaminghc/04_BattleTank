@@ -17,13 +17,14 @@ void UTankMovementComponent::IntendTurnRight(float Throw) {
 
 void UTankMovementComponent::Initilize(UTankTrack * LeftTrackToSet, UTankTrack * RightTrackToSet)
 {
-	if (!LeftTrackToSet || !RightTrackToSet) {
+	if (!ensure(LeftTrackToSet && RightTrackToSet)) {
 		return;
 	}
 	LeftTrack = LeftTrackToSet;
 	RightTrack = RightTrackToSet;
 }
 
+// for the AI
 void UTankMovementComponent::RequestDirectMove(const FVector & MoveVelocity, bool bForceMaxSpeed)
 {
 	auto TankForwardDirection = GetOwner()->GetActorForwardVector().GetSafeNormal();

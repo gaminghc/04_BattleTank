@@ -1,11 +1,6 @@
 // CopyRight@EagerBeaver
 
 #include "Tank.h"
-#include "TankAimingComponent.h"
-#include "TankMovementComponent.h"
-#include "Engine/World.h"
-#include "TankBarrel.h"
-#include "Projectile.h"
 
 class AProjectile;
 
@@ -20,7 +15,6 @@ ATank::ATank()
 void ATank::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -35,26 +29,5 @@ void ATank::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-}
-
-void ATank::AimAt(FVector HitLocation) const
-{
-	if (!TankAimingComponent) return;
-	TankAimingComponent->AimAt(HitLocation, LaunchSpeed);
-}
-
-
-void ATank::Fire()
-{
-	UTankBarrel* Barrel = nullptr;
-	UE_LOG(LogTemp, Warning, TEXT("%s is firing!"), *GetName());
-	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-	if (Barrel && isReloaded) {
-		// Spawn a projectile at socket of the barrel
-		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")),
-			Barrel->GetSocketRotation(FName("Projectile")));
-		Projectile->LaunchProjectile(LaunchSpeed);
-		LastFireTime = FPlatformTime::Seconds();
-	}
 }
 
