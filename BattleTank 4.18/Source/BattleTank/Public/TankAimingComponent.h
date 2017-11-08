@@ -43,7 +43,7 @@ public:
 	EFiringState GetFiringState() const;
 
 	UFUNCTION(BlueprintCallable, Category = Firing)
-	int GetRoundLeft() const;
+	int32 GetRoundLeft() const;
 
 protected:
 	// Called when the game starts
@@ -67,8 +67,11 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float LaunchSpeed = 4000; // 1000m/s
 
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
 	float ReloadTimeInSeconds = 3.f;
 	double LastFireTime = 0;
 	FVector BarrelDirectionLastFrame;
-	int RoundsLeft = 3;
+
+	UPROPERTY(EditDefaultsOnly, Category = Firing)
+	int32 RoundsLeft = 3;
 };
