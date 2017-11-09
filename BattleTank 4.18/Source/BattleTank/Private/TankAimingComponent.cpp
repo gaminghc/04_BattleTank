@@ -121,13 +121,19 @@ void UTankAimingComponent::Fire()
 {
 	if (FiringState == EFiringState::Locked || FiringState == EFiringState::Aiming) {
 		if (ensure(Barrel && ProjectileBlueprint)) {
-			// Spawn a projectile at socket of the barrel
-			auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(FName("Projectile")),
-				Barrel->GetSocketRotation(FName("Projectile")));
-			Projectile->LaunchProjectile(LaunchSpeed);
-			LastFireTime = FPlatformTime::Seconds();
-			FiringState = EFiringState::Reloading;
-			--RoundsLeft;
+			TArray<FName> AllSocketNames = Barrel->GetAllSocketNames();
+			for (FName SocketName : AllSocketNames) {
+				if (SocketName.ToString().Contains("Projectile")) {
+					// Spawn a projectile at socket of the barrel
+					auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBlueprint, Barrel->GetSocketLocation(SocketName),
+						Barrel->GetSocketRotation(SocketName));
+
+					Projectile->LaunchProjectile(LaunchSpeed);
+					LastFireTime = FPlatformTime::Seconds();
+					FiringState = EFiringState::Reloading;
+					--RoundsLeft;
+				}
+			}
 		}
 	}
 }

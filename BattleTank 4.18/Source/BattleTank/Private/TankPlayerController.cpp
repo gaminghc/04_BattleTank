@@ -29,7 +29,7 @@ void ATankPlayerController::Tick(float DeltaTime) {
 }
 
 void ATankPlayerController::AimTowardCrossHair() {
-	if (!ensure(GetPawn())) return; // no ensure because maybe tank die in battle
+	if (GetPawn()) return; // no ensure because maybe tank die in battle
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
 	if (!ensure(AimingComponent)) return;
 	// Get where in the world the cross hair hits and
