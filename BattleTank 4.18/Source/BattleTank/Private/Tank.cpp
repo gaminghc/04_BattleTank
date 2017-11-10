@@ -28,3 +28,9 @@ float ATank::GetHealthPercent() const
 {
 	return (float)CurrentHealth / (float)MaxHealth;
 }
+
+void ATank::BeginPlay()
+{
+	Super::BeginPlay();
+	CurrentHealth = MaxHealth;
+}

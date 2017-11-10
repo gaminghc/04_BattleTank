@@ -36,6 +36,11 @@ private:
 
 	bool GetLookVectorHitLocation(FVector LookDirection, FVector& HitLocation);
 
+	void SetPawn(APawn * InPawn);
+
+	UFUNCTION()
+	void OnTankDeath();
+
 	bool bIsTargetingAnotherTank = false;
 
 	UPROPERTY(EditDefaultsOnly)

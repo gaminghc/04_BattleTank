@@ -36,7 +36,7 @@ private:
 	int32 MaxHealth = 1000;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	int32 CurrentHealth = MaxHealth;
+	int32 CurrentHealth;
 
-	
+	virtual void BeginPlay() override;
 };

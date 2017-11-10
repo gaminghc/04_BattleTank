@@ -73,5 +73,5 @@ private:
 	FVector BarrelDirectionLastFrame;
 
 	UPROPERTY(EditDefaultsOnly, Category = Firing)
-	int32 RoundsLeft = 3;
+	int32 RoundsLeft = 300;
 };
